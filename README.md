@@ -40,25 +40,33 @@ cat AWS_MIGRATION_GUIDE.md
 
 ```
 moodle-local/
+├── 📚 DOCUMENTATION
 ├── README.md                          # This file
-├── docker-compose.yml                 # Local Docker configuration
-├── .gitignore                         # Git ignore rules
+├── AWS_QUICK_REFERENCE.md             # ⭐ File index and quick guide
+├── AWS_INFRASTRUCTURE.md              # AWS setup guide (RDS, Lightsail, DNS)
+├── AWS_DEPLOYMENT.md                  # Deployment process and troubleshooting
+├── AWS_MIGRATION_GUIDE.md             # Detailed technical migration guide
+├── MIGRATION_CHECKLIST.md             # Visual step-by-step checklist
 │
-├── 📚 Migration Documentation
-├── MIGRATION_CHECKLIST.md             # ⭐ START HERE - Quick visual checklist
-├── AWS_MIGRATION_GUIDE.md             # Detailed step-by-step guide (8 phases)
+├── 🧩 CONFIGURATION FILES
+├── docker-compose.yml                 # Local development (uses .env)
+├── docker-compose.dev.yml             # Development reference config
+├── docker-compose.aws.yml             # AWS production config
+├── .env.example                       # Local template
+├── .env.aws.example                   # AWS template
 │
-├── 🚀 Deployment Scripts
-├── deploy-to-aws.sh                   # Main deployment script for Lightsail
-├── setup-ssl.sh                       # SSL certificate setup
+├── 🚀 DEPLOYMENT SCRIPTS
+├── deploy-aws-v2.sh                   # ⭐ Main AWS deployment script (NEW!)
+├── verify-aws-config.sh               # Config validation before deploy (NEW!)
+├── backup-rds.sh                      # RDS database backup script (NEW!)
+├── setup-ssl.sh                       # SSL/HTTPS certificate setup
+├── deploy-to-aws.sh                   # Legacy deployment script
+├── push-to-github.sh                  # Push to GitHub
 │
-├── 📊 Backups (created during migration)
-├── migration-backup/
-│   └── moodle_backup.sql              # Database backup
-│
-├── 🐳 Moodle Source (not in git, ~464MB)
-└── moodlehtml/
-    └── [Moodle 4.4 LTS source code]
+├── 🐳 APPLICATION FILES
+├── moodlehtml/                        # Moodle 4.4 LTS source (not in git, ~464MB)
+├── migration-backup/                  # Database backups (not in git)
+└── backups/                           # Local backup directory
 ```
 
 ## 🧩 Components
@@ -91,15 +99,11 @@ moodle-local/
 ## 📚 Documentation Guide
 
 ### Getting Started
-1. **[MIGRATION_CHECKLIST.md](MIGRATION_CHECKLIST.md)** - Visual step-by-step with checkboxes
-   - Best for: Quick overview and tracking progress
-   - Time: 10-15 minutes to read
-   - Action items: Clear, numbered steps
-
-2. **[AWS_MIGRATION_GUIDE.md](AWS_MIGRATION_GUIDE.md)** - Comprehensive guide
-   - Best for: Understanding each phase in detail
-   - Time: 30 minutes to read
-   - Includes: Troubleshooting and explanations
+1. **[AWS_QUICK_REFERENCE.md](AWS_QUICK_REFERENCE.md)** ⭐ **START HERE** - Quick overview of all files
+2. **[AWS_INFRASTRUCTURE.md](AWS_INFRASTRUCTURE.md)** - Step-by-step AWS setup (RDS, Lightsail)
+3. **[AWS_DEPLOYMENT.md](AWS_DEPLOYMENT.md)** - Deployment process and configuration
+4. **[AWS_MIGRATION_GUIDE.md](AWS_MIGRATION_GUIDE.md)** - Detailed technical reference
+5. **[MIGRATION_CHECKLIST.md](MIGRATION_CHECKLIST.md)** - Visual checklist for manual deployment
 
 ### During Deployment
 - **[deploy-to-aws.sh](deploy-to-aws.sh)** - Interactive deployment script

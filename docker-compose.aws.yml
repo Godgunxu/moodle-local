@@ -1,0 +1,62 @@
+version: '3.8'
+
+# AWS Production Docker Compose for Moodle on Lightsail
+# This uses RDS for database (not local MariaDB)
+# Deploy this on AWS Lightsail instances
+
+services:
+  moodle:
+    image: moodlehq/moodle-php-apache:8.1
+    container_name: moodle-app
+    restart: unless-stopped
+    
+    # Network configuration for Lightsail
+    ports:
+      - "80:80"
+      - "443:443"
+    
+    environment:
+      # Database - RDS Configuration
+      MOODLE_DOCKER_DBTYPE: mariadb
+      MOODLE_DOCKER_DBHOST: ${RDS_ENDPOINT}        # e.g., moodle-db.c9akciq32.us-east-1.rds.amazonaws.com
+      MOODLE_DOCKER_DBNAME: ${DB_NAME}             # moodle
+      MOODLE_DOCKER_DBUSER: ${DB_USER}             # moodle
+      MOODLE_DOCKER_DBPASS: ${DB_PASSWORD}         # Strong password from .env
+      
+      # Moodle Site Configuration
+      MOODLE_DOCKER_WWWROOT: ${MOODLE_URL}         # https://yourdomain.com
+      
+    volumes:
+      # Moodle source code - use bind mount from local directory
+      - ./moodlehtml:/var/www/html
+      
+      # Moodle data directory with write permissions
+      - moodledata:/var/www/moodledata
+      
+      # SSL Certificates (optional - for HTTPS)
+      # Uncomment if using Let's Encrypt
+      # - /etc/letsencrypt:/etc/letsencrypt:ro
+    
+    # Health check to ensure container is ready
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/", "--connect-timeout", "5"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    # Resource limits for stability
+    # Adjust based on your Lightsail instance size
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+volumes:
+  # Named volume for Moodle data (persistent storage)
+  moodledata:
+    driver: local

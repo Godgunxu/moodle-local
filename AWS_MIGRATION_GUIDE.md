@@ -1,11 +1,22 @@
 # Moodle Migration to AWS - Complete Guide
 
 ## Overview
-Migrate your local Docker Moodle setup to AWS using:
+Complete guide for migrating your Docker-based Moodle installation to AWS using:
 - **Lightsail**: Virtual server with pre-installed Docker
-- **RDS**: Managed MariaDB database
-- **S3**: File storage and backups
-- **Route 53**: DNS management (optional, if using custom domain)
+- **RDS**: Managed MariaDB database (separate from app)
+- **S3**: File backups (optional)
+- **Route 53**: DNS management (optional for custom domain)
+- **ACM**: SSL certificates via Let's Encrypt (optional but recommended)
+
+## Updated Files for AWS Deployment
+
+**New configuration files provided:**
+- `docker-compose.aws.yml` - AWS production configuration
+- `.env.aws.example` - AWS environment template
+- `deploy-aws-v2.sh` - Automated AWS deployment
+- `verify-aws-config.sh` - Configuration validation
+- `backup-rds.sh` - RDS database backup script
+- `docker-compose.dev.yml` - Local development setup
 
 ---
 

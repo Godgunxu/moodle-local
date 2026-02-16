@@ -1,0 +1,46 @@
+version: '3.8'
+
+# Local Development Docker Compose (Unchanged from original)
+# Keep this for local development testing before AWS deployment
+
+services:
+  db:
+    image: mariadb:10.11
+    container_name: moodle-db
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+
+  moodle:
+    image: moodlehq/moodle-php-apache:8.1
+    container_name: moodle-app
+    depends_on:
+      - db
+    environment:
+      MOODLE_DOCKER_DBTYPE: mariadb
+      MOODLE_DOCKER_DBHOST: db
+      MOODLE_DOCKER_DBNAME: ${DB_NAME}
+      MOODLE_DOCKER_DBUSER: ${DB_USER}
+      MOODLE_DOCKER_DBPASS: ${DB_PASSWORD}
+    volumes:
+      - ./moodlehtml:/var/www/html
+      - moodledata_data:/var/www/moodledata
+    ports:
+      - "${MOODLE_PORT}:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  db_data:
+  moodledata_data:
