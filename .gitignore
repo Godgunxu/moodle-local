@@ -1,0 +1,68 @@
+# Moodle specific
+config.php
+config.php.bak
+config.php.backup
+/moodledata
+/moodledata_data
+/backups
+migration-backup/moodle_backup.sql
+
+# Docker
+docker-compose.override.yml
+docker-compose-aws.override.yml
+docker-compose-ssl.override.yml
+
+# Certificates and SSL
+/certificates
+/ssl-config
+.ssl/
+
+# Local environment files
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+*.log
+
+# Node/npm (if used)
+node_modules/
+npm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.Python
+
+# Database files
+*.sql
+*.sql.gz
+*.db
+*.sqlite3
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+
+# Large files
+*.tar.gz
+*.zip
+
+# AWS
+*.pem
+.aws/
+
+# Credentials and secrets
+.secrets/
+secrets.yml
+credentials.json

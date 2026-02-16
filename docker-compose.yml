@@ -1,0 +1,35 @@
+
+services:
+  db:
+    image: mariadb:10.11
+    container_name: moodle-db
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpass
+      MARIADB_DATABASE: moodle
+      MARIADB_USER: moodle
+      MARIADB_PASSWORD: moodlepass
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: unless-stopped
+
+  moodle:
+    image: moodlehq/moodle-php-apache:8.1
+    container_name: moodle-app
+    depends_on:
+      - db
+    environment:
+      MOODLE_DOCKER_DBTYPE: mariadb
+      MOODLE_DOCKER_DBHOST: db
+      MOODLE_DOCKER_DBNAME: moodle
+      MOODLE_DOCKER_DBUSER: moodle
+      MOODLE_DOCKER_DBPASS: moodlepass
+    volumes:
+      - moodledata_data:/var/www/moodledata
+      - ./moodlehtml:/var/www/html
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+volumes:
+  db_data:
+  moodledata_data:
